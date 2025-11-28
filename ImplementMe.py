@@ -30,9 +30,9 @@ torch.set_printoptions(linewidth=get_terminal_columns())
 ######################################################################################
 
 def output_ids_to_masks(*, output_ids, prompt_input_ids, pad_token_id, **kwargs):
-    """Returns an dictionary with 'attention_mask', 'completion_mask', and
-    'prompt_mask' keys, respectively mapping to int-valued (BS C)xT binary mask
-    tensors [attention_mask], [completion_mask], and [prompt_mask], defined by:
+    """Returns a Namespace with 'attention_mask', 'completion_mask', and
+    'prompt_mask' keys, respectively giving int-valued (BS C)xT binary mask tensors
+    [attention_mask], [prompt_mask], and [completion_mask], defined by:
 
     1. In [attention_mask], the ij index is 1 if the ij token of [output_ids] is a
         non-pad token and 0 if it is a pad token
@@ -49,12 +49,22 @@ def output_ids_to_masks(*, output_ids, prompt_input_ids, pad_token_id, **kwargs)
     that come after its prompt region. It may contain pad tokens.
 
     Example:
-    [PAD PAD    NON-PAD PAD NON-PAD    PAD PAD NON-PAD NON-PAD PAD PAD PAD]
-    --------    -- prompt region --    --- completion region -------------
+    Some row in [prompt_input_ids]:
+    [PAD PAD PAD    NON-PAD PAD NON-PAD]
+     -----------    -- prompt region --
 
-    HINTS: (1) Use torch.argmax() to find the start index of each prompt region:
-        pytorch.org/docs/stable/generated/torch.argmax.html. (2) Infer the number of
-        completions per prompt from the shapes of [output_ids] and [prompt_input_ids].
+    Row of [output_ids] corresponding to a completion of this prompt:
+    [PAD PAD    NON-PAD PAD NON-PAD    PAD PAD NON-PAD NON-PAD PAD PAD PAD]
+     -------    -- prompt region --    --- completion region -------------
+
+    HINTS: 
+    1. Use torch.argmax() to find the start index of each prompt region
+        pytorch.org/docs/stable/generated/torch.argmax.html.
+    2. Infer the number of completions per prompt from the shapes of [output_ids] and
+        [prompt_input_ids].
+    3. The number of pad tokens prior to a given prompt region can differ between
+        different completions of the same prompt, and between the prompt in
+        [output_ids] and [prompt_input_ids].
     ----------------------------------------------------------------------------------
     
     Args:
@@ -72,6 +82,15 @@ def output_ids_to_masks(*, output_ids, prompt_input_ids, pad_token_id, **kwargs)
     **kwargs            -- unused
     """
     raise NotImplementedError("Implement me!")
+    
+    # HINT: It might be easier to figure these out in the order [attention_mask], then
+    # [prompt_mask], and finally [completion_mask].
+    attention_mask = None   # Replace with your implementation
+    prompt_mask = None      # Replace with your implementation
+    completion_mask = None  # Replace with your implementation
+    return argparse.Namespace(attention_mask=attention_mask,
+        prompt_mask=prompt_mask
+        completion_mask=completion_mask,)
 
 
 ######################################################################################
