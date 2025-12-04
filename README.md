@@ -6,7 +6,7 @@ conda activate py312FinTechA3
 pip install sentence-transformers==5.1.2
 pip install torch==2.9.0
 pip install wandb==0.22.3
-pip install datasets<3.0
+pip install datasets==4.4.1
 pip install einops==0.8.1
 ```
 
