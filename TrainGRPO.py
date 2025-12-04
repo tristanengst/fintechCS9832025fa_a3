@@ -150,13 +150,13 @@ def get_args():
         help="Optional suffix to add to all logging and checkpoint files")
     P.add_argument("--tags", nargs="+", default=[],
         help="Optional list of tags to add to this run's Weights & Biases logging")
-    P.add_argument("--naming", default=["default"],
+    P.add_argument("--naming", default=["default"], nargs="+",
         help="List of argument names to include in the experiment name. 'default' includes a standard set of important arguments.")
     P.add_argument("--wandb", choices=["disabled", "online", "offline"], default="disabled",
         help="Whether to use Weights & Biases logging, and if so whether to log online or offline")
     P.add_argument("--wandb_project", default="FintechCS983_2025fa_a3",
         help="Weights & Biases project name to log to")
-    P.add_argument("--wandb_entity", default="apex-lab",
+    P.add_argument("--wandb_entity", default="your-entity", # Used to be mine, 'apex-lab', but others shouldn't use this
         help="Weights & Biases entity (team) to log to")
     
     # Saving and loading checkpoints/runs
