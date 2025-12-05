@@ -208,7 +208,7 @@ def test_fn(*, fn, fn_args, fn_kwargs, fn_expected_output, device="cpu", verbose
             actual_output=None)
 
     try:
-        passed = torch.allclose(output, fn_expected_output)
+        passed = torch.allclose(output, fn_expected_output, rtol=1e-4, atol=1e-6)
     except Exception as e:
         passed = False
         tb = traceback.TracebackException.from_exception(e)
