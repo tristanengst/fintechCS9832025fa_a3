@@ -89,7 +89,7 @@ def output_ids_to_masks(*, output_ids, prompt_input_ids, pad_token_id, **kwargs)
     prompt_mask = None      # Replace with your implementation
     completion_mask = None  # Replace with your implementation
     return argparse.Namespace(attention_mask=attention_mask,
-        prompt_mask=prompt_mask
+        prompt_mask=prompt_mask,
         completion_mask=completion_mask,)
 
 
@@ -242,7 +242,7 @@ if __name__ == "__main__":
     # I only 99.999% trust this to work on arbitrary systems. (2) test_case_data.json:
     # custom (de)serialization functions in UtilsBase.py to reconstruct tensor data.
     P.add_argument("--test_case_data_path", type=str,
-        default=osp.join(osp.dirname(__file__), "test_case_data.pt"),
+        default=osp.join(osp.dirname(__file__), "test_case_data_fixed_Dec4-1813.pt"),
         help="Path to the test case data")
     P.add_argument("--seed", type=int, default=42,
         help="Random seed for testing case generation.")
@@ -267,14 +267,12 @@ if __name__ == "__main__":
     else:
         raise ValueError(f"Unknown test_case_data_path extension for {args.test_case_data_path}")
 
-
     failed_tests, total_tests = 0, 0
     for fn_name in args.fns_to_test:
         test_cases = fname2test_data[fn_name]
         fn = globals()[fn_name]
 
         print(f"Function={fn_name}: Running {len(test_cases)} test cases...")
-        
         for idx,test_case in enumerate(test_cases):
             total_tests += 1
             fn_args = test_case["fn_args"]
@@ -307,6 +305,3 @@ if __name__ == "__main__":
                 tqdm.write(f"\t=== Received output:\n{fn_result.actual_output}")
 
     tqdm.write(f"Testing complete: {total_tests-failed_tests}/{total_tests} tests passed.")
-
-
-
